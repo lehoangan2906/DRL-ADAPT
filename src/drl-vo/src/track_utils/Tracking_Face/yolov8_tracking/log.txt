@@ -1,0 +1,98 @@
+Log of python track_face.py --source rtsp://admin:123456a%40@172.21.111.104:554/main --device 3 
+Wed Nov  1 14:18:54 2023
+
+[34m[1mtrack_face: [0msource=rtsp://admin:123456a%40@172.21.111.104:554/main, reid_weights=/media/v100/DATA4/huynq/Tracking_Face/yolov8_tracking/weights/osnet_x0_25_msmt17.pt, save_trajectories=False, tracking_config=trackers/bytetrack/configs/bytetrack.yaml, tracking_method=bytetrack, device=3
+Ultralytics YOLOv8.0.20 🚀 Python-3.7.0 torch-1.12.1.post200 CUDA:3 (Tesla V100-SXM2-32GB, 32510MiB)
+
+Addr [172.23.111.176:19530] search
+Excepted error: cannot release un-acquired lock
+	{'API start': '2023-11-01 14:19:58.240053', 'RPC start': '2023-11-01 14:19:58.240849', 'Exception': '2023-11-01 14:19:58.249140'}
+Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}, 'CUDAExecutionProvider': {'arena_extend_strategy': 'kNextPowerOfTwo', 'cuda_mem_limit': '18446744073709551615', 'device_id': '2'}}
+model ignore: /media/v100/DATA4/huynq/Tracking_Face/model/models/buffalo_l/1k3d68.onnx landmark_3d_68
+Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}, 'CUDAExecutionProvider': {'arena_extend_strategy': 'kNextPowerOfTwo', 'cuda_mem_limit': '18446744073709551615', 'device_id': '2'}}
+model ignore: /media/v100/DATA4/huynq/Tracking_Face/model/models/buffalo_l/2d106det.onnx landmark_2d_106
+Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}, 'CUDAExecutionProvider': {'arena_extend_strategy': 'kNextPowerOfTwo', 'cuda_mem_limit': '18446744073709551615', 'device_id': '2'}}
+find model: /media/v100/DATA4/huynq/Tracking_Face/model/models/buffalo_l/det_10g.onnx detection [1, 3, '?', '?'] 127.5 128.0
+Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}, 'CUDAExecutionProvider': {'arena_extend_strategy': 'kNextPowerOfTwo', 'cuda_mem_limit': '18446744073709551615', 'device_id': '2'}}
+model ignore: /media/v100/DATA4/huynq/Tracking_Face/model/models/buffalo_l/genderage.onnx genderage
+Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}, 'CUDAExecutionProvider': {'arena_extend_strategy': 'kNextPowerOfTwo', 'cuda_mem_limit': '18446744073709551615', 'device_id': '2'}}
+find model: /media/v100/DATA4/huynq/Tracking_Face/model/models/buffalo_l/w600k_r50.onnx recognition ['None', 3, 112, 112] 127.5 127.5
+set det-size: (640, 640)
+Collection:  CollectionSchema(collection_name='data', dimension=512, index_file_size=1024, metric_type=<MetricType: IP>)
+Result:  0
+69330
+69330
+(69330, 512)
+len Ids:  69330
+len Embs:  69330
+69330
+Status:  Status(code=0, message='Add vectors successfully!')
+69330
+Status(code=0, message='Success!')
+Traceback (most recent call last):
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/threading.py", line 300, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/grpc/_channel.py", line 735, in result
+    timeout=timeout)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/grpc/_common.py", line 141, in wait
+    _wait_once(wait_fn, MAXIMUM_WAIT_TIMEOUT, spin_cb)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/grpc/_common.py", line 106, in _wait_once
+    wait_fn(timeout=timeout)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/threading.py", line 305, in wait
+    self._acquire_restore(saved_state)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "track_face.py", line 451, in <module>
+    main(opt)
+  File "track_face.py", line 446, in main
+    run(**vars(opt))
+  File "track_face.py", line 328, in run
+    status, results = client.search(**param)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/milvus/client/stub.py", line 37, in inner
+    return func(self, *args, **kwargs)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/milvus/client/stub.py", line 656, in search
+    return handler.search(collection_name, top_k, query_records, partition_tags, params, timeout, **kwargs)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/milvus/client/grpc_handler.py", line 55, in handler
+    raise e
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/milvus/client/grpc_handler.py", line 41, in handler
+    return func(self, *args, **kwargs)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/milvus/client/grpc_handler.py", line 752, in search
+    response = ft.result()
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/grpc/_channel.py", line 744, in result
+    raise self
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/threading.py", line 244, in __exit__
+    return self._lock.__exit__(*args)
+RuntimeError: cannot release un-acquired lock
+Sentry is attempting to send 3 pending error messages
+Waiting up to 2 seconds
+Press Ctrl-C to quit
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/sentry_sdk/worker.py", line 56, in _timed_queue_join
+    queue.all_tasks_done.wait(timeout=delay)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/threading.py", line 300, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/sentry_sdk/worker.py", line 95, in flush
+    self._wait_flush(timeout, callback)
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/sentry_sdk/worker.py", line 107, in _wait_flush
+    if not self._timed_queue_join(timeout - initial_timeout):
+  File "/media/v100/DATA4/huynq/.conda/envs/huy/lib/python3.7/site-packages/sentry_sdk/worker.py", line 56, in _timed_queue_join
+    queue.all_tasks_done.wait(timeout=delay)
+KeyboardInterrupt
+pythondied with signal 2
+
+Wed Nov  1 14:20:01 2023
+----------------
