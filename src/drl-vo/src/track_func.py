@@ -444,6 +444,72 @@ def process_tracking(p, dt, masks, proto, im0s, paths, curr_frames, prev_frames,
         return rs_dicts, curr_velocities_cal
     
 
+def initiliaze_processing(
+        yolo_weights = WEIGHTS / 'yolov8m-seg.engine',
+        reid_weights = WEIGHTS / 'osnet_x0_25_msmt17.pt',
+        tracking_method = 'bytetrack',
+        tracking_config = None,
+        device = '0',
+        imgsz = (640, 640),
+        half = False,
+        dnn = False, 
+        save_txt = False,
+        name = 'exp',
+        project = ROOT / 'runs' / 'track',
+        exist_ok = False,
+        bs = 1
+    ):
+
+
+    # Directories
+    if not isinstance(yolo_weights, list): # Single yolo model
+        exp_name = yolo_weights.stem
+    elif isinstance(yolo_weights, list) and len(yolo_weights) == 1:  # single models after --yolo_weights
+        exp_name = Path(yolo_weights[0]).stem
+    else: # multiple models after -- yolo_weights
+        exp_name = 'ensemble'
+
+    exp_name = name if name else exp_name + "_" + reid_weights.stem
+    save_dir = increment_path(Path(project) / exp_name, exist_ok = exist_ok)  # Increment run
+    (save_dir / 'tracks' if save_txt else save_dir).mkdir(parents=True, exist_ok = True)  # Make dir
+
+
+    # Cluster 3 inside the below run() function
+    device = select_device(device)
+    is_seg = '-seg' in str(yolo_weights) # Check if it's segmentation
+
+    model = AutoBackend(weights=yolo_weights,
+                        device=device,
+                        dnn=dnn,
+                        fp16=half,
+                        batch=bs, # Set batch size
+                        fuse=True,
+                        verbose=True)
+                        
+    model.eval()  # Set model to evaluation mode
+    stride, names, pt = model.stride, model.names, model.pt 
+    imgsz = check_imgsz(imgsz, stride=stride) # Check image size
+
+    # Warmup the model
+    model.warmup(imgsz=(1 if pt or model.triton else bs, 3, *imgsz)) # warmup with dummy data (pre-execute the model with some dummy data to optimize certain internal mechanisms.)
+
+    # Cluster 4 inside the below run() function
+    tracker_list = []
+    for i in range(bs):
+        tracker = create_tracker(tracking_method, tracking_config, reid_weights, device, half)
+        tracker_list.append(tracker,)
+
+        if hasattr(tracker_list[i], 'model'):
+            if hasattr(tracker_list[i].model, 'warmup'):
+                tracker_list[i].model.warmup()
+
+    return model, tracker_list, stride, names, save_dir
+
+
+def process_frame(params):
+    color_image = 
+
+
 @torch.no_grad()
 def run(camera_type = 'simulated',
         source = '0', 
